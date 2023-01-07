@@ -12,7 +12,7 @@ namespace Weapon
         private GameObject _bullet;
         private Transform _firePoint;
         private Camera _camera;
-
+      
         public ProjectileWeapon(GameObject bullet, float fireRate, Transform firePoint, int fireForce, int weaponDamage,
             bool isMultiShot)
         {
@@ -22,31 +22,33 @@ namespace Weapon
             _fireForce = fireForce;
             _weaponDamage = weaponDamage;
             _isMultiShot = isMultiShot;
+           
         }
 
         public void Shoot()
         {
             if (_isMultiShot)
             {
-                CreateBullet(new Vector3(-0.5f, 0f, 0f));
-                CreateBullet(new Vector3(0f, 0f, 0f));
-                CreateBullet(new Vector3(0.5f, 0f, 0f));
+                CreateBullet(-45f);
+                CreateBullet( 0);
+                CreateBullet( 45f);
             }
             else
             {
-                CreateBullet(new Vector3(0, 0, 0));
+                CreateBullet(0);
             }
         }
 
-        private void CreateBullet(Vector3 offsetRotation)
+        private void CreateBullet(float angle)
         {
-            GameObject bullet = Object.Instantiate(_bullet, _firePoint.position, Quaternion.identity);
-            Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-            Vector3 offset = _firePoint.up + offsetRotation;
-            rb.AddForce(offset * _fireForce, ForceMode2D.Impulse);
-            Bullet bulletGameObject = bullet.GetComponent<Bullet>();
-            bulletGameObject.Initialize(_weaponDamage);
+            GameObject newBullet = Object.Instantiate(_bullet, _firePoint.position, Quaternion.identity);
+            Bullet bullet = newBullet.GetComponent<Bullet>();
             
+            Vector3 offset = Quaternion.Euler(0, 0, angle) * _firePoint.up;
+
+            bullet.BulletRigidbody2D.AddForce(offset * _fireForce, ForceMode2D.Impulse);
+            bullet.Initialize(_weaponDamage);
+
         }
     }
 }

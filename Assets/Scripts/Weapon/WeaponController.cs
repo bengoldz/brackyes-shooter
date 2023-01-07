@@ -17,8 +17,9 @@ public class WeaponController : MonoBehaviour
 
     private void Awake()
     {
-        _currentWeapon =
-            new ProjectileWeapon(_currentWeaponData._bullet, _currentWeaponData._fireRate, _firePoint, _currentWeaponData.FireForce, _currentWeaponData.Damage, _currentWeaponData.IsMultiShot);
+        _currentWeapon = new ProjectileWeapon(
+                _currentWeaponData._bullet, _currentWeaponData._fireRate,
+                _firePoint, _currentWeaponData.FireForce, _currentWeaponData.Damage, _currentWeaponData.IsMultiShot);
     }
 
     private void Start()
